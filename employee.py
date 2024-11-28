@@ -166,13 +166,11 @@ def getAverageSalaryByAirport(cur):
 
         airport_name = input("Enter Airport Name to get average salary details: ").strip()
         query = """
-        SELECT Airline.Airline_name, COUNT(Flight.Flight_code) AS Flight_Count
-        FROM Flight
-        JOIN Flight_Employee ON Flight.Pilot = Flight_Employee.Emp_id
+        SELECT AVG(Salary) AS Average_Salary
+        FROM Flight_Employee 
         JOIN Airline ON Flight_Employee.Works_For = Airline.Airline_ID
         JOIN Operates ON Airline.Airline_ID = Operates.AirlineID
         WHERE Operates.AirportID = %s
-        GROUP BY Airline.Airline_name;
         """
         cur.execute(query, (airport_name,))
         result = cur.fetchone()

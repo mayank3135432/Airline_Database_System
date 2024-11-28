@@ -3,7 +3,10 @@ import getpass
 from db_connection import connect_to_db
 from employee import hireAnEmployee, fireAnEmployee, promoteEmployee, getEmployeeDetails, getEmployeesByAirport, getAverageSalaryByAirport
 from airport import addAirport, deleteAirport, getAirlinesByAirport, getFlightsByAirlineAtAirport
-from passenger import getTotalBaggageWeightByPassenger
+from passenger import getTotalBaggageWeightByPassenger, searchPassengerByName
+from airline import deleteAirline
+from baggage import deleteBaggage
+
 def dispatch(ch, cur, con):
     if ch == 1:
         hireAnEmployee(cur, con)
@@ -25,9 +28,14 @@ def dispatch(ch, cur, con):
         getFlightsByAirlineAtAirport(cur)
     elif ch == 10:
         getTotalBaggageWeightByPassenger(cur)
+    elif ch == 11:
+        searchPassengerByName(cur)
+    elif ch == 12:
+        deleteAirline(cur, con)
+    elif ch == 13:
+        deleteBaggage(cur, con)
     else:
         print("Error: Invalid Option")
-
 
 if __name__ == "__main__":
     while True:
@@ -54,10 +62,13 @@ if __name__ == "__main__":
                 print("8. Get average salary of all employees at a specific airport")
                 print("9. Get number of flights operated by each airline at a specific airport")
                 print("10. Get total baggage weight for each passenger on a specific flight")
-                print("11. Logout")
+                print("11. Search Passenger by Name")
+                print("12. Delete Airline")
+                print("13. Delete Baggage")
+                print("14. Logout")
                 ch = int(input("Enter choice> "))
                 tmp = sp.call('clear', shell=True)
-                if ch == 11:
+                if ch == 14:
                     exit()
                 else:
                     dispatch(ch, cur, con)

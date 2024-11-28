@@ -76,3 +76,23 @@ def getTotalBaggageWeightByPassenger(cur):
     except Exception as e:
         print("Failed to retrieve data from database")
         print("Error details:", repr(e))
+
+def searchPassengerByName(cur):
+    try:
+        name = input("Enter Passenger Name to search: ").strip()
+        query = """
+        SELECT PID, F_name, M_name, L_name, Bdate, BoardingFlight
+        FROM Passenger
+        WHERE F_name LIKE %s OR M_name LIKE %s OR L_name LIKE %s
+        """
+        search_term = f"%{name}%"
+        cur.execute(query, (search_term, search_term, search_term))
+        results = cur.fetchall()
+        if results:
+            for row in results:
+                print(f"Passenger ID: {row['PID']}, Name: {row['F_name']} {row['M_name']} {row['L_name']}, Birth Date: {row['Bdate']}, Boarding Flight: {row['BoardingFlight']}")
+        else:
+            print("No passengers found with the given name.")
+    except Exception as e:
+        print("Failed to retrieve data from database")
+        print("Error details:", repr(e))

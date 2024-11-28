@@ -20,16 +20,31 @@ def addAirport(cur, con):
 
 def deleteAirport(cur, con):
     try:
-        ap_name = input("Enter Airport Name to delete: ")
-        query = "DELETE FROM Airport WHERE Ap_name = '%s'" % ap_name
-        cur.execute(query)
-        con.commit()
-        print("Airport deleted from the database")
+        # Fetch and display existing airports
+        cur.execute("SELECT Ap_name FROM Airport")
+        airports = cur.fetchall()
+        if airports:
+            print("Select Airport to delete from the following list:")
+            for airport in airports:
+                print(f"Airport: {airport['Ap_name']}")
+        else:
+            print("No airports found in the database.")
+            return
+
+        ap_name = input("Enter Airport Name to delete: ").strip()
+        query = "DELETE FROM Airport WHERE Ap_name = %s"
+        cur.execute(query, (ap_name,))
+        if cur.rowcount == 0:
+            print("No airport found with the given name.")
+        else:
+            con.commit()
+            print("Airport deleted from the database")
 
     except Exception as e:
         con.rollback()
         print("Failed to delete from database")
         print(">>>>>>>>>>>>>", e)
+
 
 def airportStatistics(cur):
     try:
@@ -89,7 +104,13 @@ def getFlightsByAirlineAtAirport(cur):
 
         airport_name = input("Enter Airport Name to get flight details: ").strip()
         query = """
-        select * from `Flight` where `Source`= %s
+        SELECT Airline.Airline_name, COUNT(Flight.Flight_code) AS Flight_Count
+        FROM Flight
+        JOIN Flight_Employee ON Flight.Pilot = Flight_Employee.Emp_id
+        JOIN Airline ON Flight_Employee.Works_For = Airline.Airline_ID
+        JOIN Operates ON Airline.Airline_ID = Operates.AirlineID
+        WHERE Operates.AirportID = %s
+        GROUP BY Airline.Airline_name;
         """
         cur.execute(query, (airport_name,))
         results = cur.fetchall()

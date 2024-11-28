@@ -19,9 +19,23 @@ def addAirline(cur, con):
 
 def deleteAirline(cur, con):
     try:
+        # Fetch and display existing airlines
+        cur.execute("SELECT Airline_ID, Airline_name FROM Airline")
+        airlines = cur.fetchall()
+        print("Select the airline to delete from the following:")
+        for airline in airlines:
+            print(f"Airline ID: {airline['Airline_ID']}, Name: {airline['Airline_name']}")
+        
         airline_id = input("Enter Airline ID to delete: ")
-        query = "DELETE FROM Airline WHERE Airline_ID = '%s'" % airline_id
-        cur.execute(query)
+
+        # Check if the airline ID exists
+        cur.execute("SELECT Airline_ID FROM Airline WHERE Airline_ID = %s", (airline_id,))
+        if cur.fetchone() is None:
+            print("No airline found with the given ID.")
+            return
+
+        query = "DELETE FROM Airline WHERE Airline_ID = %s"
+        cur.execute(query, (airline_id,))
         con.commit()
         print("Airline deleted from the database")
 
@@ -29,7 +43,6 @@ def deleteAirline(cur, con):
         con.rollback()
         print("Failed to delete from database")
         print(">>>>>>>>>>>>>", e)
-
 def airlineStatistics(cur):
     try:
         query = "SELECT Airline_name, COUNT(Flight_code) AS Flight_Count FROM Airline LEFT JOIN Flight ON Airline.Airline_ID = Flight.Pilot GROUP BY Airline.Airline_name"
