@@ -42,3 +42,62 @@ def airportStatistics(cur):
     except Exception as e:
         print("Failed to retrieve data from database")
         print(">>>>>>>>>>>>>", e)
+
+def getAirlinesByAirport(cur):
+    try:
+        # Fetch and display the list of airports
+        cur.execute("SELECT Ap_name FROM Airport")
+        airports = cur.fetchall()
+        if airports:
+            print("Select Airport from the following list:")
+            for airport in airports:
+                print(f"Airport: {airport['Ap_name']}")
+        else:
+            print("No airports found in the database.")
+            return
+
+        airport_name = input("Enter Airport Name to get airline details: ").strip()
+        query = """
+        SELECT Airline.Airline_ID, Airline.Airline_name 
+        FROM Airline 
+        JOIN Operates ON Airline.Airline_ID = Operates.AirlineID 
+        WHERE Operates.AirportID = %s
+        """
+        cur.execute(query, (airport_name,))
+        results = cur.fetchall()
+        if results:
+            for row in results:
+                print(f"Airline ID: {row['Airline_ID']}, Airline Name: {row['Airline_name']}")
+        else:
+            print("No airlines found for the given airport.")
+    except Exception as e:
+        print("Failed to retrieve data from database")
+        print("Error details:", repr(e))
+
+def getFlightsByAirlineAtAirport(cur):
+    try:
+        # Fetch and display the list of airports
+        cur.execute("SELECT Ap_name FROM Airport")
+        airports = cur.fetchall()
+        if airports:
+            print("Select Airport from the following list:")
+            for airport in airports:
+                print(f"Airport: {airport['Ap_name']}")
+        else:
+            print("No airports found in the database.")
+            return
+
+        airport_name = input("Enter Airport Name to get flight details: ").strip()
+        query = """
+        select * from `Flight` where `Source`= %s
+        """
+        cur.execute(query, (airport_name,))
+        results = cur.fetchall()
+        if results:
+            for row in results:
+                print(f"Airline: {row['Airline_name']}, Number of Flights: {row['Flight_Count']}")
+        else:
+            print("No flights found for the given airport.")
+    except Exception as e:
+        print("Failed to retrieve data from database")
+        print("Error details:", repr(e))

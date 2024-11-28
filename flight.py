@@ -63,3 +63,4 @@ def deleteFlight(cur, con):
         con.rollback()
         print("Failed to delete from database")
         print(">>>>>>>>>>>>>", e)
+

@@ -55,3 +55,24 @@ def addBusinessClassPassenger(cur, con):
         con.rollback()
         print("Failed to promote passenger to Business Class")
         print(">>>>>>>>>>>>>", e)
+
+def getTotalBaggageWeightByPassenger(cur):
+    try:
+        flight_code = input("Enter Flight Code to get baggage weight details: ").strip()
+        query = """
+        SELECT Passenger.F_name, Passenger.M_name, Passenger.L_name, SUM(Baggage.Weight) AS Total_Weight
+        FROM Passenger
+        JOIN Baggage ON Passenger.PID = Baggage.BelongsTo
+        WHERE Passenger.BoardingFlight = %s
+        GROUP BY Passenger.PID
+        """
+        cur.execute(query, (flight_code,))
+        results = cur.fetchall()
+        if results:
+            for row in results:
+                print(f"Passenger: {row['F_name']} {row['M_name']} {row['L_name']}, Total Baggage Weight: {row['Total_Weight']} kg")
+        else:
+            print("No baggage found for the given flight.")
+    except Exception as e:
+        print("Failed to retrieve data from database")
+        print("Error details:", repr(e))

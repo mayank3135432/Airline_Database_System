@@ -145,7 +145,9 @@ INSERT INTO Airport (Ap_name, City, Country) VALUES
 ('SYD', 'Sydney', 'Australia'),
 ('FRA', 'Frankfurt', 'Germany'),
 ('HKG', 'Hong Kong', 'China'),
-('SIN', 'Singapore', 'Singapore');
+('SIN', 'Singapore', 'Singapore'),
+('LAS', 'Somewhere', 'Somewhat'),
+('SEA', 'Underwater', 'Earth');
 
 INSERT INTO Airline (Airline_ID, Airline_name) VALUES
 ('AN4V82', 'American Airlines'),
@@ -177,7 +179,8 @@ INSERT INTO Flight_Employee (Emp_id, F_name, M_name, L_name, Jobtype, Salary, Bd
 ('PL2C3D', 'Scarlett', 'H', 'Johansson', 'Pilot', 175000, '1984-11-22', 'AP9BUR', NULL),
 ('PL3E4F', 'Chris', 'I', 'Hemsworth', 'Pilot', 180000, '1983-08-11', 'AJG2H6', NULL),
 ('PL4G5H', 'Mark', 'J', 'Ruffalo', 'Pilot', 185000, '1967-11-22', 'ATZVOX', NULL),
-('PL5I6J', 'Jeremy', 'K', 'Renner', 'Pilot', 190000, '1971-01-07', 'AHX7L2', NULL);
+('PL5I6J', 'Jeremy', 'K', 'Renner', 'Pilot', 190000, '1971-01-07', 'AHX7L2', NULL),
+('PL5I2X', 'John', 'D', 'Doe', 'Pilot', 150000, '1980-01-01', 'AN4V82', NULL);
 
 
 INSERT INTO Employee_Phone (Phone_No, PID) VALUES
@@ -215,11 +218,23 @@ INSERT INTO Flight (Flight_code, Source, Destination, AirplaneID, Pilot, Arrival
 ('FL003', 'DXB', 'LHR', 'A003', 'PL9O0P', '2023-10-03 10:00:00', '2023-10-03 14:00:00'),
 ('FL004', 'LHR', 'DXB', 'A004', 'PL9O0P', '2023-10-04 11:00:00', '2023-10-04 15:00:00'),
 ('FL005', 'HND', 'CDG', 'A005', 'PL5I6J', '2023-10-05 12:00:00', '2023-10-05 16:00:00'),
-('FL006', 'CDG', 'HND', 'A006', 'PL5I6J', '2023-10-06 13:00:00', '2023-10-06 17:00:00'),
+('FL011', 'LAX', 'CDG', 'A010', 'PL5I2X', '2023-04-11 15:00:00', '2023-04-11 22:00:00'),
+('FL006', 'CDG', 'HND', 'A002', 'PL5I6J', '2023-10-06 13:00:00', '2023-10-06 17:00:00'),
 ('FL007', 'SYD', 'FRA', 'A007', 'PL4G5H', '2023-10-07 14:00:00', '2023-10-07 18:00:00'),
 ('FL008', 'FRA', 'SYD', 'A008', 'PL4G5H', '2023-10-08 15:00:00', '2023-10-08 19:00:00'),
 ('FL009', 'HKG', 'SIN', 'A009', 'PL1A2B', '2023-10-09 16:00:00', '2023-10-09 20:00:00'),
-('FL010', 'SIN', 'HKG', 'A010', 'PL4G5H', '2023-10-10 17:00:00', '2023-10-10 21:00:00');
+('FL010', 'SIN', 'HKG', 'A010', 'PL4G5H', '2023-10-10 17:00:00', '2023-10-10 21:00:00'),
+('FL012', 'LAX', 'SYD', 'A001', 'PL5I6J', '2023-10-11 08:00:00', '2023-10-11 12:00:00'),
+('FL013', 'LAX', 'LAX', 'A003', 'PL4S0W', '2023-10-12 09:00:00', '2023-10-12 13:00:00'),
+('FL014', 'LAX', 'SEA', 'A010', 'PL9O0P', '2023-10-13 10:00:00', '2023-10-13 14:00:00'),
+('FL015', 'LAX', 'JFK', 'A010', 'PL5I6J', '2023-10-14 11:00:00', '2023-10-14 15:00:00'),
+('FL016', 'JFK', 'LAX', 'A005', 'PL4G5H', '2023-10-15 12:00:00', '2023-10-15 16:00:00'),
+('FL017', 'JFK', 'SYD', 'A006', 'PL1A2B', '2023-10-16 13:00:00', '2023-10-16 17:00:00'),
+('FL018', 'JFK', 'LAX', 'A007', 'PL4S0W', '2023-10-17 14:00:00', '2023-10-17 18:00:00'),
+('FL019', 'JFK', 'SEA', 'A009', 'PL9O0P', '2023-10-18 15:00:00', '2023-10-18 19:00:00'),
+('FL020', 'JFK', 'DXB', 'A005', 'PL5I6J', '2023-10-19 16:00:00', '2023-10-19 20:00:00'),
+('FL021', 'LAX', 'JFK', 'A010', 'PL4G5H', '2023-10-20 17:00:00', '2023-10-20 21:00:00'),
+('FL022', 'LAX', 'LAS', 'A003', 'PL1A2B', '2023-10-21 18:00:00', '2023-10-21 22:00:00');
 
 -- Insert data into Passenger table
 INSERT INTO Passenger (PID, F_name, M_name, L_name, Bdate, BoardingFlight) VALUES
@@ -232,7 +247,19 @@ INSERT INTO Passenger (PID, F_name, M_name, L_name, Bdate, BoardingFlight) VALUE
 ('P007', 'Fox', 'P', 'Mulder', '1983-12-27', 'FL007'),
 ('P008', 'Clarice', 'Q', 'Starling', '1989-01-30', 'FL008'),
 ('P009', 'Jack', 'R', 'Ryan', '1984-02-02', 'FL009'),
-('P010', 'Jason', 'S', 'Bourne', '1986-03-05', 'FL010');
+('P010', 'Jason', 'S', 'Bourne', '1986-03-05', 'FL010'),
+('P011', 'Bruce', 'T', 'Wayne', '1972-02-19', 'FL011'),
+('P012', 'Clark', 'U', 'Kent', '1978-06-18', 'FL012'),
+('P013', 'Diana', 'V', 'Prince', '1981-03-22', 'FL013'),
+('P014', 'Barry', 'W', 'Allen', '1985-07-14', 'FL014'),
+('P015', 'Arthur', 'X', 'Curry', '1986-01-29', 'FL015'),
+('P016', 'Hal', 'Y', 'JSYDan', '1984-11-20', 'FL016'),
+('P017', 'Oliver', 'Z', 'Queen', '1983-05-16', 'FL017'),
+('P018', 'Victor', 'A', 'Stone', '1987-09-25', 'FL018'),
+('P019', 'Billy', 'B', 'Batson', '1990-12-12', 'FL019'),
+('P020', 'Kara', 'C', 'Zor-El', '1992-04-10', 'FL020'),
+('P021', 'John', 'D', 'Stewart', '1980-08-08', 'FL021'),
+('P022', 'Shayera', 'E', 'Hol', '1982-10-30', 'FL022');
 
 -- Insert data into Passenger_Phone table
 INSERT INTO Passenger_Phone (Phone_No, PID) VALUES
